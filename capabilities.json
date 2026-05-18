@@ -1,0 +1,36 @@
+{
+  "name": "smart-agent",
+  "version": "1.0.0",
+  "description": "Smart Agent — A distributed AI load balancer that routes user queries across multiple AI agent instances simultaneously using Round Robin, Least Connections, and Random strategies. Features a real-time dashboard with dark/light theme, live metrics, burst testing, and strategy comparison pie chart.",
+  "capabilities": [
+    "load-balancing",
+    "round-robin",
+    "least-connections",
+    "random-routing",
+    "real-time-dashboard",
+    "multi-agent",
+    "fault-tolerance",
+    "heartbeat-monitoring",
+    "circuit-breaking",
+    "burst-testing"
+  ],
+  "entry_point": "start_system.py",
+  "runtime": "python",
+  "runtime_version": "3.10+",
+  "framework": "fastapi",
+  "port": 9000,
+  "dashboard_url": "/dashboard",
+  "agents": [
+    {"id": "agent-1", "port": 8001},
+    {"id": "agent-2", "port": 8002},
+    {"id": "agent-3", "port": 8003}
+  ],
+  "environment": {
+    "OPENAI_KEY_1": "required",
+    "OPENAI_KEY_2": "required",
+    "OPENAI_KEY_3": "required"
+  },
+  "dependencies": "requirements.txt",
+  "author": "Nikitha-04",
+  "license": "MIT"
+}
