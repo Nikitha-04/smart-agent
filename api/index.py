@@ -114,7 +114,8 @@ async def execute_query(query: str, strategy: str):
     # Forward the request internally (in-process)
     agent_data["active_connections"] += 1
     try:
-        async with httpx.AsyncClient(app=app, base_url="http://testserver") as client:
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
             response = await client.post(f"{agent_url}/query", json={"query": query}, timeout=60.0)
             response.raise_for_status()
             res_data = response.json()
@@ -176,7 +177,8 @@ async def control_agent(agent_id: str, action: str):
         raise HTTPException(status_code=400, detail="Invalid action")
         
     try:
-        async with httpx.AsyncClient(app=app, base_url="http://testserver") as client:
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
             await client.post(f"{url}/{action}", timeout=2.0)
             return {"status": "success", "action": action}
     except Exception as e:
