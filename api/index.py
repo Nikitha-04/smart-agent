@@ -252,7 +252,7 @@ async def virtual_agent_health(instance_id: str):
         raise HTTPException(status_code=500, detail="crashed")
     return {"status": "ok", "agent_id": agent_name}
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard():
     html = """
@@ -1151,4 +1151,4 @@ async def dashboard():
     </body>
     </html>
     """
-    return html
+    return HTMLResponse(content=html)
