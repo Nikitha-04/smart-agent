@@ -443,6 +443,238 @@ async def dashboard():
 
             /* ── WORKING ANIMATION ── */
             @keyframes working{0%,100%{box-shadow:0 0 0 0 rgba(79,142,255,0.5);}50%{box-shadow:0 0 0 8px rgba(79,142,255,0);}}
+
+            /* Onboarding Tour styles */
+            .tour-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(4, 7, 15, 0.85);
+                backdrop-filter: blur(16px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+                opacity: 0;
+                visibility: hidden;
+            }
+            .tour-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            body.light .tour-overlay {
+                background: rgba(224, 242, 254, 0.75);
+            }
+            .tour-card {
+                width: 90%;
+                max-width: 620px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 24px;
+                padding: 40px;
+                box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8), 0 0 60px rgba(79, 142, 255, 0.15);
+                position: relative;
+                overflow: hidden;
+                transform: scale(0.9);
+                transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .tour-overlay.active .tour-card {
+                transform: scale(1);
+            }
+            .tour-progress {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 25px;
+            }
+            .tour-steps-dots {
+                display: flex;
+                gap: 8px;
+            }
+            .tour-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--border);
+                transition: all 0.3s;
+            }
+            .tour-dot.active {
+                width: 24px;
+                border-radius: 4px;
+                background: var(--primary);
+                box-shadow: 0 0 10px var(--primary-glow);
+            }
+            .tour-slide {
+                display: none;
+                animation: slideFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .tour-slide.active {
+                display: block;
+            }
+            @keyframes slideFadeIn {
+                from { opacity: 0; transform: translateY(15px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .tour-illustration {
+                height: 180px;
+                margin-bottom: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+            }
+            .tour-title {
+                font-size: 1.6rem;
+                font-weight: 800;
+                margin-bottom: 12px;
+                background: linear-gradient(135deg, #fff 30%, var(--primary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            body.light .tour-title {
+                background: linear-gradient(135deg, #1e1b4b 30%, var(--primary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            .tour-desc {
+                color: var(--muted);
+                font-size: 0.95rem;
+                line-height: 1.6;
+                margin-bottom: 30px;
+            }
+            .tour-desc ul {
+                list-style: none;
+                margin-top: 10px;
+            }
+            .tour-desc li {
+                margin-bottom: 6px;
+                padding-left: 18px;
+                position: relative;
+            }
+            .tour-desc li::before {
+                content: '•';
+                position: absolute;
+                left: 6px;
+                color: var(--primary);
+            }
+            .tour-nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .tour-link {
+                color: var(--muted);
+                font-size: 0.85rem;
+                font-weight: 600;
+                cursor: pointer;
+                background: none;
+                border: none;
+                font-family: inherit;
+                transition: color 0.2s;
+            }
+            .tour-link:hover {
+                color: var(--text);
+            }
+            .tour-buttons {
+                display: flex;
+                gap: 12px;
+            }
+            .tour-btn {
+                padding: 10px 20px;
+                border-radius: 10px;
+                border: none;
+                font-family: inherit;
+                font-size: 0.88rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .tour-btn-secondary {
+                background: var(--surface2);
+                color: var(--text);
+                border: 1px solid var(--border);
+            }
+            .tour-btn-secondary:hover {
+                background: var(--surface);
+            }
+            .tour-btn-primary {
+                background: linear-gradient(135deg, var(--primary), #0077ff);
+                color: white;
+                box-shadow: 0 4px 15px var(--primary-glow);
+            }
+            .tour-btn-primary:hover {
+                box-shadow: 0 6px 20px rgba(79, 142, 255, 0.5);
+                transform: translateY(-1px);
+            }
+
+            /* Animations for illustrations */
+            .anim-nodes {
+                display: flex;
+                gap: 30px;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                width: 100%;
+            }
+            .anim-node {
+                width: 50px;
+                height: 50px;
+                border-radius: 12px;
+                background: var(--surface2);
+                border: 1px solid var(--border);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.3rem;
+                position: relative;
+                box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            }
+            .anim-node.healthy {
+                border-color: var(--green);
+                animation: tour-node-pulse 2s infinite ease-in-out;
+            }
+            .anim-node.crashed {
+                border-color: var(--red);
+                animation: tour-node-crash 1.5s infinite ease-in-out;
+            }
+            @keyframes tour-node-pulse {
+                0%, 100% { box-shadow: 0 0 10px rgba(16,217,142,0.2); }
+                50% { box-shadow: 0 0 25px rgba(16,217,142,0.6); }
+            }
+            @keyframes tour-node-crash {
+                0%, 100% { transform: scale(1); opacity: 0.8; }
+                50% { transform: scale(0.95); opacity: 0.4; }
+            }
+            .anim-connector {
+                height: 2px;
+                width: 40px;
+                background: linear-gradient(90deg, var(--primary), var(--green));
+                position: relative;
+            }
+            .anim-connector::after {
+                content: '';
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--cyan);
+                top: -2px;
+                left: 0;
+                animation: stream 1.5s infinite linear;
+            }
+            @keyframes stream {
+                0% { left: 0; }
+                100% { left: 100%; }
+            }
+            @keyframes spin {
+                100% { transform: rotate(360deg); }
+            }
+            @keyframes grow-bar {
+                from { transform: scaleY(0.7); transform-origin: bottom; }
+                to { transform: scaleY(1.1); transform-origin: bottom; }
+            }
         </style>
     </head>
     <body>
@@ -450,6 +682,94 @@ async def dashboard():
         <div class="orb orb1"></div>
         <div class="orb orb2"></div>
         <div class="orb orb3"></div>
+
+        <!-- Interactive Welcome Tour -->
+        <div class="tour-overlay" id="tour-overlay">
+            <div class="tour-card">
+                <div class="tour-progress">
+                    <span style="font-size:0.75rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px;" id="tour-step-indicator">Step 1 of 4</span>
+                    <div class="tour-steps-dots">
+                        <div class="tour-dot active"></div>
+                        <div class="tour-dot"></div>
+                        <div class="tour-dot"></div>
+                        <div class="tour-dot"></div>
+                    </div>
+                </div>
+
+                <!-- Slide 1: Welcome -->
+                <div class="tour-slide active">
+                    <div class="tour-illustration">
+                        <div class="anim-nodes">
+                            <div class="anim-node healthy">🤖</div>
+                            <div class="anim-connector"></div>
+                            <div class="anim-node healthy">🧠</div>
+                            <div class="anim-connector"></div>
+                            <div class="anim-node healthy">⚙️</div>
+                        </div>
+                    </div>
+                    <h2 class="tour-title">Welcome to Smart Agent 🧠</h2>
+                    <p class="tour-desc">This system simulates an intelligent, serverless load-balanced AI agent cluster. It distributes concurrent user requests across multiple virtual AI agents to maximize throughput, minimize latency, and guarantee zero downtime.</p>
+                </div>
+
+                <!-- Slide 2: Load Balancing -->
+                <div class="tour-slide">
+                    <div class="tour-illustration">
+                        <div style="position:relative; width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
+                            <div class="anim-node" style="border-color:var(--primary); z-index:2;">💻</div>
+                            <div style="position:absolute; width:110px; height:110px; border-radius:50%; border:2px dashed var(--border); animation:spin 12s infinite linear;"></div>
+                            <div class="anim-node" style="position:absolute; top:20px; left:180px; font-size:1.1rem;">🤖</div>
+                            <div class="anim-node" style="position:absolute; bottom:20px; left:200px; font-size:1.1rem;">🧩</div>
+                            <div class="anim-node" style="position:absolute; top:80px; right:180px; font-size:1.1rem;">⚙️</div>
+                        </div>
+                    </div>
+                    <h2 class="tour-title">Load Balancing Strategies ⚡</h2>
+                    <p class="tour-desc">You can choose between three powerful load-balancing routing algorithms:
+                        <ul>
+                            <li><strong>Least Connections</strong>: Smartly routes to the agent currently handling the fewest active tasks.</li>
+                            <li><strong>Round Robin</strong>: Cycles through available instances sequentially.</li>
+                            <li><strong>Random</strong>: Simple randomized distribution.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <!-- Slide 3: Resilient Failure Recovery -->
+                <div class="tour-slide">
+                    <div class="tour-illustration">
+                        <div class="anim-nodes">
+                            <div class="anim-node healthy">🤖</div>
+                            <div class="anim-connector" style="background:var(--red);"></div>
+                            <div class="anim-node crashed">💥</div>
+                            <div class="anim-connector" style="background:var(--border);"></div>
+                            <div class="anim-node healthy">⚙️</div>
+                        </div>
+                    </div>
+                    <h2 class="tour-title">Resiliency & Circuit Breaker 🛡️</h2>
+                    <p class="tour-desc">Test real-world edge cases by clicking <strong>Crash</strong> on any virtual agent instance.
+                        When you fire queries (like the 15-query burst test), you'll see the <strong>Circuit Breaker</strong> instantly detect the failure, update the metrics, and route subsequent queries away from the offline node.</p>
+                </div>
+
+                <!-- Slide 4: Real-time Monitor -->
+                <div class="tour-slide">
+                    <div class="tour-illustration">
+                        <div style="display:flex; gap:15px; align-items:flex-end; height:120px; width:200px; border-bottom:2px solid var(--border); padding-bottom:10px;">
+                            <div style="width:30px; background:linear-gradient(to top, var(--primary), var(--cyan)); border-radius:6px; height:80px; animation:grow-bar 2s infinite alternate ease-in-out;"></div>
+                            <div style="width:30px; background:linear-gradient(to top, var(--green), var(--primary)); border-radius:6px; height:110px; animation:grow-bar 2.5s infinite alternate ease-in-out; animation-delay:0.3s;"></div>
+                            <div style="width:30px; background:linear-gradient(to top, var(--red), var(--orange)); border-radius:6px; height:40px; animation:grow-bar 1.8s infinite alternate ease-in-out; animation-delay:0.6s;"></div>
+                        </div>
+                    </div>
+                    <h2 class="tour-title">Live Analytics & Mission Logs 📊</h2>
+                    <p class="tour-desc">Analyze system metrics, agent workload distribution, and routing efficiency charts in real-time. Check the persistent Mission Log table below to track full details of every query's execution path and status.</p>
+                </div>
+
+                <div class="tour-nav">
+                    <button class="tour-link" onclick="closeTour()">Skip Tour</button>
+                    <div class="tour-buttons">
+                        <button class="tour-btn tour-btn-secondary" id="tour-prev" onclick="changeStep(-1)" style="display:none;">Back</button>
+                        <button class="tour-btn tour-btn-primary" id="tour-next" onclick="changeStep(1)">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <main>
             <!-- HEADER -->
@@ -463,6 +783,7 @@ async def dashboard():
                     </div>
                 </div>
                 <div class="header-right">
+                    <button class="theme-toggle" onclick="startTour()">📖 How It Works</button>
                     <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙 Dark Mode</button>
                     <div class="live-badge">
                         <div class="live-dot"></div>
@@ -592,6 +913,59 @@ async def dashboard():
         </main>
 
         <script>
+            // Welcome Tour state
+            let currentTourStep = 0;
+            let tourSlides, tourDots, tourStepIndicator, tourPrevBtn, tourNextBtn;
+
+            function initTour() {
+                tourSlides = document.querySelectorAll('.tour-slide');
+                tourDots = document.querySelectorAll('.tour-dot');
+                tourStepIndicator = document.getElementById('tour-step-indicator');
+                tourPrevBtn = document.getElementById('tour-prev');
+                tourNextBtn = document.getElementById('tour-next');
+            }
+
+            function showStep(index) {
+                if (!tourSlides) initTour();
+                tourSlides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                tourDots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+                currentTourStep = index;
+                tourStepIndicator.textContent = `Step ${index + 1} of ${tourSlides.length}`;
+                
+                tourPrevBtn.style.display = index === 0 ? 'none' : 'inline-block';
+                tourNextBtn.textContent = index === tourSlides.length - 1 ? 'Start Exploring 🚀' : 'Next';
+            }
+
+            function changeStep(direction) {
+                const nextStep = currentTourStep + direction;
+                if (nextStep >= 0 && nextStep < tourSlides.length) {
+                    showStep(nextStep);
+                } else if (nextStep >= tourSlides.length) {
+                    closeTour();
+                }
+            }
+
+            function startTour() {
+                showStep(0);
+                document.getElementById('tour-overlay').classList.add('active');
+            }
+
+            function closeTour() {
+                document.getElementById('tour-overlay').classList.remove('active');
+                localStorage.setItem('sa-tour-seen', 'true');
+            }
+
+            // Trigger automatically if not seen
+            window.addEventListener('DOMContentLoaded', () => {
+                if (localStorage.getItem('sa-tour-seen') !== 'true') {
+                    setTimeout(startTour, 800);
+                }
+            });
+
             // Strategy descriptions
             const stratDesc = {
                 least_connections: "⚡ Routes to the agent with the lowest active workload for maximum speed.",
