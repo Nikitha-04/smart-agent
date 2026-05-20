@@ -1,0 +1,54 @@
+{
+  "protocolVersion": "0.2.9",
+  "name": "smart-agent",
+  "description": "General purpose smart AI agent with simulated delays and mock responses.",
+  "url": "http://localhost:8000/",
+  "preferredTransport": "JSONRPC",
+  "provider": {
+    "organization": "Nasiko AI Projects",
+    "url": "https://github.com/ashishsharma/nasiko"
+  },
+  "iconUrl": "http://localhost:8000/icon.png",
+  "version": "1.0.0",
+  "documentationUrl": "http://localhost:8000/docs",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": true,
+    "chat_agent": false
+  },
+  "securitySchemes": {},
+  "security": [],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "process-query",
+      "name": "Process Query",
+      "description": "Process a general query with simulated delays and responses",
+      "tags": [
+        "general_knowledge",
+        "question_answering",
+        "simulated_responses"
+      ],
+      "examples": [
+        "answer a general query",
+        "process a complex request",
+        "simulate an AI task"
+      ],
+      "inputModes": [
+        "application/json",
+        "text/plain"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "supportsAuthenticatedExtendedCard": false,
+  "signatures": []
+}

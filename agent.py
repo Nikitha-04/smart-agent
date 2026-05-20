@@ -28,7 +28,7 @@ class QueryRequest(BaseModel):
 async def startup_event():
     print(f"[{AGENT_ID}] Starting up on {AGENT_URL}...")
     if not API_KEY:
-        print(f"[{AGENT_ID}] WARNING: No OpenAI API Key found (running in Simulation Mode)")
+        print(f"[{AGENT_ID}] WARNING: No OpenAI API Key found!")
     asyncio.create_task(heartbeat_loop())
 
 async def heartbeat_loop():
@@ -43,7 +43,7 @@ async def heartbeat_loop():
                     }, timeout=2.0)
                 except Exception as e:
                     print(f"[{AGENT_ID}] Failed to heartbeat to router: {e}")
-            await asyncio.sleep(2)
+            await asyncio.sleep(2)  # Heartbeat every 2 seconds
 
 @app.post("/query")
 async def process_query(request: QueryRequest):
@@ -51,14 +51,17 @@ async def process_query(request: QueryRequest):
     if is_crashed:
         await asyncio.sleep(10)
         raise Exception("Agent is crashed")
-
+        
     print(f"[{AGENT_ID}] Received query: {request.query}")
+    
     start_time = time.time()
-
+    
     # --- SIMULATION MODE ---
+    # Simulate processing time based on query length (longer query = slightly longer time)
     base_delay = random.uniform(1.0, 3.5)
     await asyncio.sleep(base_delay)
-
+    
+    # Generate a realistic-looking mock response
     mock_responses = [
         f"Here is a detailed response to your query about '{request.query[:20]}...'",
         "I have processed your request successfully using my local memory allocation.",
@@ -66,10 +69,10 @@ async def process_query(request: QueryRequest):
         "Task completed. My CPU and RAM usage remained stable during this operation."
     ]
     response_text = random.choice(mock_responses)
-
+    
     delay = time.time() - start_time
     print(f"[{AGENT_ID}] Finished query after {delay:.2f}s")
-
+    
     return {
         "agent_id": AGENT_ID,
         "response": response_text,
